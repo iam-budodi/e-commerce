@@ -9,12 +9,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity implementation class for Entity: Publisher
  *
  */
+
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Publisher implements Serializable {
@@ -36,7 +38,7 @@ public class Publisher implements Serializable {
 	
 	@NotNull
 	@Size(max = 30)
-	@XmlTransient
+	@XmlAttribute
 	@Column(length = 30)
 	private String name;
 	
@@ -80,7 +82,6 @@ public class Publisher implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	
 	// ========================================
 	// = 	Method hash, equals, toString     =

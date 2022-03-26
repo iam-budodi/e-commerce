@@ -103,10 +103,11 @@ public class User implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
+	
 	private static final long serialVersionUID = 1L;
 	
 	// =================================
-	// =         Callback              =
+	// =        Lifecycle methods      =
 	// =================================
 	
 	@PrePersist
