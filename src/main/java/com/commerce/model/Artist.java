@@ -114,6 +114,7 @@ public class Artist implements Serializable {
 	// =================================
 	// = 		Getters and Setters    =
 	// =================================
+	
 	public Long getId() {
 		return this.id;
 	}
