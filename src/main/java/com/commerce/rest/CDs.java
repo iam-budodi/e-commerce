@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import com.commerce.model.Book;
+import com.commerce.model.CD;
 
 @XmlRootElement
-@XmlSeeAlso(Book.class)
-public class Books extends ArrayList<Book> {
+@XmlSeeAlso(CD.class)
+public class CDs extends ArrayList<CD> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,20 +20,20 @@ public class Books extends ArrayList<Book> {
 	// =         Constructors          =
 	// =================================
 	
-	public Books() {
+	public CDs() {
 		super();
 	}
 
-	public Books(Collection<? extends Book> c) {
+	public CDs(Collection<? extends CD> c) {
 		super(c);
 	}
-	
+
 	// =================================
 	// = 		Getters and Setters    =
 	// =================================
 	
-	@XmlElement(name = "book")
-	public List<Book> getBooks() {
+	@XmlElement(name = "cd")
+	public List<CD> getCDs() {
 		return this;
 	}
 
