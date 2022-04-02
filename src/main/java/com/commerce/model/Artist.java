@@ -101,7 +101,6 @@ public class Artist implements Serializable {
 		
 		age = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR) + adjust;
 	}
-	
 
 	// =================================
 	// =         Constructors          =
