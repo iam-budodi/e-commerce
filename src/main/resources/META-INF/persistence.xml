@@ -8,6 +8,7 @@
 		transaction-type="JTA">
 		<description>Default Persistence Unit</description>
 		<properties>
+
 			<property
 				name="javax.persistence.schema-generation.database.action"
 				value="drop-and-create" />
