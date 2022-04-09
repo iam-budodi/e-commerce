@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ResourceProducer {
 
 	// =================================
-	// = Producers =
+	// = 			Producers 		   =
 	// =================================
 
 	@Produces

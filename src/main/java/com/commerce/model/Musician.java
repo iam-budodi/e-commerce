@@ -57,9 +57,9 @@ public class Musician extends Artist implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Musician [preferredInstrument=" + preferredInstrument + ", cds=" + cds + ", id=" + id + ", version="
-				+ version + ", firstName=" + firstName + ", lastName=" + lastName + ", bio=" + bio + ", dateOfBirth="
-				+ dateOfBirth + ", age=" + age + "]";
+		return "Musician [preferredInstrument=" + preferredInstrument 
+				+ ", cds=" + cds + ", id=" + id + ", version=" + version 
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", bio=" 
+				+ bio + ", dateOfBirth=" + dateOfBirth + ", age=" + age + "]";
 	}
-   
 }

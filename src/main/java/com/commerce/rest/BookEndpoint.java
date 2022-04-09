@@ -18,32 +18,47 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.Response.Status;
 
-import com.commerce.model.CD;
+import com.commerce.model.Book;
 
-@Path("/cds")
+@Path("/books")
 @Transactional
-public class CDEndpoint {
+public class BookEndpoint {
 
 	// ========================================
 	// = 			Injection Point 		  =
 	// ========================================
-
+	
 	@Inject
 	private EntityManager em;
 
 	// ========================================
-	// = 			Business Methods 		  =
+	// = 			Business Methodds 		  =
 	// ========================================
+	
+	@GET
+	@Path("/paper")
+	@Produces({"text/plain"})
+	public String listPaperBook() {
+		return "list paper books";
+	}
+	
+	@GET
+	@Path("/paper/old")
+	@Produces({"text/plain"})
+	public String listOldPaperBook() {
+		return "list old paper books";
+	}
+	
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
-	public Response create(CD entity) {
+	public Response create(Book entity) {
 		em.persist(entity);
 		return Response.created(
-				UriBuilder.fromResource(CDEndpoint.class)
+				UriBuilder.fromResource(BookEndpoint.class)
 				.path(String.valueOf(entity.getId())).build())
 				.build();
 	}
@@ -51,7 +66,7 @@ public class CDEndpoint {
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
-		CD entity = em.find(CD.class, id);
+		Book entity = em.find(Book.class, id);
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
@@ -64,18 +79,18 @@ public class CDEndpoint {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces({ "application/xml", "application/json" })
 	public Response findById(@PathParam("id") Long id) {
-		TypedQuery<CD> findByIdQuery = em.createQuery(
-				"SELECT DISTINCT c FROM CD c "
-				+ "LEFT JOIN FETCH c.label "
-				+ "LEFT JOIN FETCH c.musicians "
-				+ "LEFT JOIN FETCH c.genre "
-				+ "WHERE c.id = :entityId "
-				+ "ORDER BY c.id", 
-				CD.class);
+		TypedQuery<Book> findByIdQuery = em.createQuery(
+				"SELECT DISTINCT b FROM Book b "
+				+ "LEFT JOIN FETCH b.category "
+				+ "LEFT JOIN FETCH b.authors "
+				+ "LEFT JOIN FETCH b.publisher "
+				+ "WHERE b.id = :entityId "
+				+ "ORDER BY b.id", 
+				Book.class);
 		
 		findByIdQuery.setParameter("entityId", id);
 		
-		CD entity;
+		Book entity;
 		
 		try {
 			entity = findByIdQuery.getSingleResult();
@@ -92,16 +107,16 @@ public class CDEndpoint {
 	
 	@GET
 	@Produces({ "application/xml", "application/json" })
-	public List<CD> listAll(@QueryParam("start") Integer startPosition, 
+	public List<Book> listAll(@QueryParam("start") Integer startPosition, 
 			@QueryParam("max") Integer maxResult) {
 		
-		TypedQuery<CD> findAllQuery = em.createQuery(
-				"SELECT DISTINCT c FROM CD c "
-				+ "LEFT JOIN FETCH c.label "
-				+ "LEFT JOIN FETCH c.musicians "
-				+ "LEFT JOIN FETCH c.genre "
-				+ "ORDER BY c.id", 
-				CD.class);
+		TypedQuery<Book> findAllQuery = em.createQuery(
+				"SELECT DISTINCT b FROM Book b "
+				+ "LEFT JOIN FETCH b.category "
+				+ "LEFT JOIN FETCH b.authors "
+				+ "LEFT JOIN FETCH b.publisher "
+				+ "ORDER BY b.id", 
+				Book.class);
 		
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
@@ -109,15 +124,14 @@ public class CDEndpoint {
 		if (maxResult != null) {
 			findAllQuery.setMaxResults(maxResult);
 		}
-		final List<CD> results = findAllQuery.getResultList();
-		System.out.println("CDs : " + results);
+		final List<Book> results = findAllQuery.getResultList();
 		return results;
 	}
 	
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes({ "application/xml", "application/json" })
-	public Response update(@PathParam("id") Long id, CD entity) {
+	public Response update(@PathParam("id") Long id, Book entity) {
 		if (entity == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -127,7 +141,7 @@ public class CDEndpoint {
 		if (!id.equals(entity.getId())) {
 			return Response.status(Status.CONFLICT).entity(entity).build();
 		}
-		if (em.find(CD.class, id) == null) {
+		if (em.find(Book.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
@@ -140,4 +154,5 @@ public class CDEndpoint {
 		
 		return Response.noContent().build();
 	}
+	
 }
