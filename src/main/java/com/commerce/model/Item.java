@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * Entity implementation class for Entity: Item
  *
  */
-@Entity(name = "Item")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "dicriminator", discriminatorType = DiscriminatorType.CHAR)
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("I")
 @NamedQueries({
 	@NamedQuery(name = Item.FIND_TOP_RATED, query = "SELECT i FROM Item i WHERE i.id IN :ids"),
@@ -61,6 +61,7 @@ public class Item implements Serializable {
 	protected String description;
 	
 	@Min(1)
+	@XmlElement(name = "unit-cost")
 	@Column(name = "unit_cost")
 	protected Float unitCost;
 	
@@ -80,9 +81,9 @@ public class Item implements Serializable {
 	// =         Constructors          =
 	// =================================
 	
-	public Item() {
-		super();
-	}   
+	/*
+	 * public Item() { super(); }
+	 */ 
 
 	// =================================
 	// =        Getters and Setters    =

@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -40,10 +41,12 @@ public class Book extends Item implements Serializable {
 	private String isbn;
 	
 	@Min(1)
-	@Column(name = "no_of_pages")
+	@XmlElement(name = "number-of-page")
+	@Column(name = "nb_of_pages")
 	private Integer nbOfPage;
 	
 	@Temporal(TemporalType.DATE)
+	@XmlElement(name = "publication-date")
 	@Column(name = "publication_date")
 	private Date publicationDate;
 	

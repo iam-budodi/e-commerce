@@ -9,6 +9,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,14 +19,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @Entity
-@XmlRootElement
 @DiscriminatorValue("C")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CD extends Item implements Serializable {
 
 	// =================================
 	// = 	   Attributes/fields       =
 	// =================================
 	
+	@XmlElement(name = "number-of-discs")
 	@Column(name = "nb_of_discs")
 	private Integer nbOfDiscs;
 	
@@ -38,9 +43,9 @@ public class CD extends Item implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	public CD() {
-		super();
-	}  	
+	/*
+	 * public CD() { super(); }
+	 */	
 
 	// =================================
 	// =        Getters and Setters    =
@@ -57,21 +62,21 @@ public class CD extends Item implements Serializable {
 		return this.label;
 	}
 
-	public void setLabel(Label label) {
+	public void setLabel(final Label label) {
 		this.label = label;
 	}   
 	public Set<Musician> getMusicians() {
 		return this.musicians;
 	}
 
-	public void setMusicians(Set<Musician> musicians) {
+	public void setMusicians(final Set<Musician> musicians) {
 		this.musicians = musicians;
 	}   
 	public Genre getGenre() {
 		return this.genre;
 	}
 
-	public void setGenre(Genre genre) {
+	public void setGenre(final Genre genre) {
 		this.genre = genre;
 	}
 

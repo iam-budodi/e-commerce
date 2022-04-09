@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -111,6 +110,7 @@ public class CDEndpoint {
 			findAllQuery.setMaxResults(maxResult);
 		}
 		final List<CD> results = findAllQuery.getResultList();
+		System.out.println("CDs : " + results);
 		return results;
 	}
 	

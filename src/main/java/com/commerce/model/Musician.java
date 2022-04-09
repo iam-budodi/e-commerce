@@ -47,7 +47,7 @@ public class Musician extends Artist implements Serializable {
 		return this.cds;
 	}
 
-	public void setCds(Set<CD> cds) {
+	public void setCds(final Set<CD> cds) {
 		this.cds = cds;
 	}
 
