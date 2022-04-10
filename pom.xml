@@ -21,6 +21,8 @@
 			tested stacks. -->
 		<version.jboss.bom>25.0.1.Final</version.jboss.bom>
 		<version.lorem>2.1</version.lorem>
+		<version.annotation>1.3.2</version.annotation>
+		<version.interceptor>1.2.2</version.interceptor>
 
 		<!-- other plugin versions -->
 		<version.compiler.plugin>3.8.1</version.compiler.plugin>
@@ -77,18 +79,24 @@
 
 	<dependencies>
 
-		<!-- Import the CDI API, we use provided scope as the API is included in 
-			WildFly / JBoss EAP -->
+		<!-- Import CDI API, with provided scope as is included WildFly/JBoss EAP -->
 		<dependency>
 			<groupId>jakarta.enterprise</groupId>
 			<artifactId>jakarta.enterprise.cdi-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Helper dependencies -->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
+			<version>${version.annotation}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.interceptor</groupId>
+			<artifactId>javax.interceptor-api</artifactId>
+			<version>${version.interceptor}</version>
 		</dependency>
 
 		<!-- Bean Validation Implementation Provides portable constraints such 
@@ -149,12 +157,12 @@
 			<artifactId>jboss-ejb-api_3.2_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>com.thedeanda</groupId>
-            <artifactId>lorem</artifactId>
-            <version>${version.lorem}</version>
-        </dependency>
+			<groupId>com.thedeanda</groupId>
+			<artifactId>lorem</artifactId>
+			<version>${version.lorem}</version>
+		</dependency>
 
 		<!-- Test scope dependencies -->
 		<dependency>

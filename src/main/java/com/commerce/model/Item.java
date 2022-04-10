@@ -5,6 +5,8 @@ import java.lang.Float;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
+import java.util.Objects;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,11 +24,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("I")
-@NamedQueries({
-	@NamedQuery(name = Item.FIND_TOP_RATED, query = "SELECT i FROM Item i WHERE i.id IN :ids"),
-	@NamedQuery(name = Item.SEARCH, query = "SELECT i FROM Item i WHERE UPPER(i.title) LIKE :keyword "
-			+ "OR UPPER(i.description) LIKE :keyword ORDER BY  i.title")
-})
+@NamedQueries({ 
+	@NamedQuery(name = Item.FIND_TOP_RATED, 
+			query = "SELECT i FROM Item i WHERE i.id IN :ids"),
+	@NamedQuery(name = Item.SEARCH, 
+			query = "SELECT i FROM Item i WHERE UPPER(i.title) LIKE :keyword "
+					+ "OR UPPER(i.description) LIKE :keyword ORDER BY i.title") 
+	})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Item implements Serializable {
 	
@@ -148,13 +152,33 @@ public class Item implements Serializable {
 
 	// ========================================
 	// = Method hash, equals, toString        =
-	// ========================================
+	// ========================================	
 
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", version=" + version + ", title=" + title + ", description=" + description
 				+ ", unitCost=" + unitCost + ", rank=" + rank + ", smallImageURL=" + smallImageURL + ", mediumImageURL="
 				+ mediumImageURL + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, id, mediumImageURL, rank, smallImageURL, title, unitCost, version);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item item = (Item) obj;
+		return Objects.equals(description, item.description) && Objects.equals(id, item.id)
+				&& Objects.equals(mediumImageURL, item.mediumImageURL) && Objects.equals(rank, item.rank)
+				&& Objects.equals(smallImageURL, item.smallImageURL) && Objects.equals(title, item.title)
+				&& Objects.equals(unitCost, item.unitCost) && Objects.equals(version, item.version);
 	}
    
 }
