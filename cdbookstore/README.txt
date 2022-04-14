@@ -10,7 +10,7 @@ Run the maven goals "wildfly:undeploy"
 
 DataSource:
 This sample includes a "persistence.xml" file in "src/main/resources/META-INF". This file defines
-a persistence unit "e-commercePersistenceUnit" which uses the JakartaEE default database.
+a persistence unit "cdbookstorePersistenceUnit" which uses the JakartaEE default database.
 
 In production environment, you should define a database in WildFly config and point to this database
 in "persistence.xml".
@@ -26,7 +26,7 @@ In case you don't want to use JSF, simply delete this file and "src/main/webapp/
 Testing:
 This sample is prepared for running unit tests with the Arquillian framework.
 
-The configuration can be found in "e-commerce/pom.xml":
+The configuration can be found in "cdbookstore/pom.xml":
 
 Three profiles are defined:
 -"default": no integration tests are executed.
@@ -51,9 +51,6 @@ You can delete this test file if no tests are necessary.
 Why integration tests instead of the "maven-surefire-plugin" testrunner?
 The Arquillian test runner deploys the WAR file to the WildFly server and thus you have to build it yourself with the ShrinkWrap API.
 The goal "verify" (which triggers the maven-surefire-plugin) is executed later in the maven build lifecyle than the "test" goal so that the target 
-artifact ("e-commerce.war") is already built. You can build
+artifact ("cdbookstore.war") is already built. You can build
 the final WAR by including those files. The "maven-surefire-plugin" is executed before the WAR file
 are created, so this WAR files would have to be built in the "@Deployment" method, too. 
-
-mvn archetype:generate -Darchetype.iteractive=false --batch-mode -DgroupId=com.commerce -DartifactId=cdbookstore -Dversion=1 -DarchetypeGroupId=org.wildfly.
-archetype -DarchetypeArtifactId=wildfly-jakartaee-webapp-archetype -DarchetypeVersion=25.0.0.Final

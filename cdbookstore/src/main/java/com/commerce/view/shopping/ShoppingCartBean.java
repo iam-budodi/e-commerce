@@ -2,11 +2,14 @@ package com.commerce.view.shopping;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,6 +22,7 @@ import com.commerce.model.Address;
 import com.commerce.model.Country;
 import com.commerce.model.CreditCard;
 import com.commerce.model.CreditCardType;
+import com.commerce.model.Item;
 import com.commerce.view.account.AccountBean;
 
 @Named
@@ -63,11 +67,64 @@ public class ShoppingCartBean implements Serializable {
 	// ========================================
 	
 //	TODO: add and remove item on shopping cart and produce invoice.
+	public String addItemToCart() {
+		Item item = em.find(Item.class, getParamId("itemId"));
+		
+		boolean itemFound = false;
+		for (ShoppingCartItem cartItem : cartItems) {
+			// if item already exists in the shopping cart we just change quantity
+			if (cartItem.getItem().equals(item)) {
+				cartItem.setQuantity(cartItem.getQuantity() + 1);
+				itemFound = true;
+			}
+		}
+		if (!itemFound) {
+			// otherwise, it is added to the shopping cart
+			cartItems.add(new ShoppingCartItem(item, 1));
+		}
+		
+		facesContext.addMessage(null, 
+				new FacesMessage(
+						FacesMessage.SEVERITY_INFO, 
+						item.getTitle() + " added to the shopping cart", 
+						"You can add more Items"));
+		
+		return "/shopping/viewItem.xhtml?faces-redirect=true&includeViewParams=true";
+	}
+	
+	public String removeItemFromCart() {
+		Item item = em.find(Item.class, getParamId("itemId"));
+		
+		for (ShoppingCartItem cartItem : cartItems) {
+			if (cartItem.getItem().equals(item)) {
+				cartItems.remove(cartItem);
+				return null;
+			}
+		}
+		
+		return null;
+	}
+	
+	public String updateQuantity() {
+		return null;
+	}
+	
+	public String confirmation() {
+		// creating invoice
+	}
+
+	protected Long getParamId(String param) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> map = context
+				.getExternalContext()
+				.getRequestParameterMap();
+		return Long.valueOf(map.get(param));
+	}
 	
 	// ========================================
 	// = 			Getters and Setters		  =
 	// ========================================
-	
+
 	public List<ShoppingCartItem> getCartItems() {
 		return cartItems;
 	}
