@@ -111,6 +111,7 @@ public class ShoppingCartBean implements Serializable {
 	
 	public String confirmation() {
 		// creating invoice
+		return null;
 	}
 
 	protected Long getParamId(String param) {
