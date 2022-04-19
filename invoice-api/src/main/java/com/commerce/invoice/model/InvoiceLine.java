@@ -1,4 +1,4 @@
-package com.commerce.model;
+package com.commerce.invoice.model;
 
 import java.io.Serializable;
 import java.lang.Float;
@@ -36,12 +36,12 @@ public class InvoiceLine implements Serializable {
 	@NotNull
 	@Size(min = 1, max = 200)
 	@Column(length = 200)
-	private String title;
+	protected String title;
 
 	@NotNull
 	@Min(1)
 	@Column(name = "unit_cost")
-	private Float unitCost;
+	protected Float unitCost;
 
 	@NotNull
 	@Min(1)
@@ -132,10 +132,10 @@ public class InvoiceLine implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InvoiceLine other = (InvoiceLine) obj;
-		return Objects.equals(id, other.id) && Objects.equals(quantity, other.quantity)
-				&& Objects.equals(title, other.title) && Objects.equals(unitCost, other.unitCost)
-				&& Objects.equals(version, other.version);
+		InvoiceLine invoiceLine = (InvoiceLine) obj;
+		return Objects.equals(id, invoiceLine.id) && Objects.equals(quantity, invoiceLine.quantity)
+				&& Objects.equals(title, invoiceLine.title) && Objects.equals(unitCost, invoiceLine.unitCost)
+				&& Objects.equals(version, invoiceLine.version);
 	}
 
 }
