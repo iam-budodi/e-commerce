@@ -83,7 +83,7 @@ public class Invoice implements Serializable {
 	private String street2;
 	
 	@NotNull
-	@Size(min = 5, max = 50)
+	@Size(min = 2, max = 50)
 	@Column(length = 50, nullable = false)
 	private String city;
 	private String state;
@@ -107,8 +107,7 @@ public class Invoice implements Serializable {
 		super();
 	}
 
-	public Invoice(String firstName, String lastName, String street1, String city, String zipcode, String country,
-			String email) {
+	public Invoice(String firstName, String lastName, String email, String street1, String city, String zipcode, String country) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
