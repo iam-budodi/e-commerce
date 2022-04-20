@@ -9,10 +9,7 @@
         <version>1.0</version>
     </parent>
     
-    <groupId>com.commerce</groupId>
     <artifactId>invoice-api</artifactId>
-    <version>1.0</version>
-
     <packaging>jar</packaging>
     <name>invoice-api</name>
     <description>Insert description for your project here.</description>
