@@ -87,6 +87,15 @@ public class InvoiceServiceTest {
 		assertEquals("First name", invoice.getFirstName());
 		
 		// Updates the object
+		invoice.setFirstName("A new first name");
+		invoice = invoiceService.merge(invoice);
 		
+		// Finds the object from the database and checks it is updated
+		invoice = invoiceService.findById(invoice.getId());
+		assertEquals("A new first name", invoice.getFirstName());
+		
+		// Delete the object from database and checks it is not there anymore
+		invoiceService.remove(invoice);
+		assertEquals(initialSize, invoiceService.listAll().size());
 	}
 }

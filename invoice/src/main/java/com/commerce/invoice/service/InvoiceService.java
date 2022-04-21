@@ -64,7 +64,7 @@ public class InvoiceService {
 	}
 
 	public void remove(Invoice invoice) {
-		em.remove(invoice);
+		em.remove(em.merge(invoice));
 	}
 
 	public Invoice merge(Invoice invoice) {

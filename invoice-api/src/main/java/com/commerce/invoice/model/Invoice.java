@@ -44,9 +44,9 @@ public class Invoice implements Serializable {
 	@Column(name = "version")
 	private Integer version;
 	
-	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "invoice_date", updatable = false)
+	@Column(name = "invoice_date")
+	//@Past
 	private Date invoiceDate;
 	private Float totalBeforeDiscount;
 	
@@ -356,6 +356,4 @@ public class Invoice implements Serializable {
 				&& Objects.equals(zipcode, invoice.zipcode);
 	}
 	
-	
-
 }
