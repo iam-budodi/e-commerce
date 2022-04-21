@@ -98,4 +98,35 @@ public class InvoiceServiceTest {
 		invoiceService.remove(invoice);
 		assertEquals(initialSize, invoiceService.listAll().size());
 	}
+	
+	@Test
+	@InSequence(3)
+	public void should_create_an_invoice() {
+		// Creates an object
+		Invoice invoice = new Invoice("First name", "Last name", "email@email", "street1", "city", "zipcode",
+				"country");
+		InvoiceLine line1 = new InvoiceLine("item1", 25.25F, 1);
+		InvoiceLine line2 = new InvoiceLine("item1", 33.75F, 3);
+
+		invoice.addInvoiceLine(line1);
+		invoice.addInvoiceLine(line2);
+
+		// Insert the object into the database
+		invoice = invoiceService.persist(invoice);
+		assertNotNull(invoice.getId());
+
+		// Find the object in the database and check it the right one
+		invoice = invoiceService.findById(invoice.getId());
+		assertEquals(2, invoice.getInvoiceLines().size());
+		assertEquals("First name", invoice.getFirstName());
+		
+        assertEquals(Float.valueOf(5.5F), invoice.getVatRate());
+        assertEquals(Float.valueOf(12.5F), invoice.getDiscountRate());
+
+        assertEquals(Float.valueOf(126.5F), invoice.getTotalBeforeDiscount());
+        assertEquals(Float.valueOf(15.81F), invoice.getDiscount());
+        assertEquals(Float.valueOf(110.69F), invoice.getTotalAfterDiscount());
+        assertEquals(Float.valueOf(6.09F), invoice.getVat());
+        assertEquals(Float.valueOf(104.60F), invoice.getTotalAfterVat());
+	}
 }
