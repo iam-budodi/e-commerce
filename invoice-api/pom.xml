@@ -13,6 +13,7 @@
     <artifactId>invoice-api</artifactId>
     <packaging>jar</packaging>
     <name>invoice-api</name>
+    
     <description>Insert description for your project here.</description>
 
     <properties>

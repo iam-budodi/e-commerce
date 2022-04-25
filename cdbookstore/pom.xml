@@ -12,6 +12,7 @@
 	<artifactId>cdbookstore</artifactId>
 	<packaging>war</packaging>
 	<name>cdbookstore</name>
+	
 	<description>Insert description for your project here.</description>
 
 	<properties>
