@@ -116,7 +116,8 @@ public class InvoiceBean implements Serializable {
 				return "view?faces-redirect=true&id=" + this.invoice.getId();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
@@ -131,7 +132,8 @@ public class InvoiceBean implements Serializable {
 			this.entityManager.flush();
 			return "search?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
@@ -177,15 +179,18 @@ public class InvoiceBean implements Serializable {
 		// Populate this.count
 		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
 		Root<Invoice> root = countCriteria.from(Invoice.class);
-		countCriteria = countCriteria.select(builder.count(root)).where(getSearchPredicates(root));
-		this.count = this.entityManager.createQuery(countCriteria).getSingleResult();
+		countCriteria = countCriteria.select(builder.count(root))
+						.where(getSearchPredicates(root));
+		this.count = this.entityManager.createQuery(countCriteria)
+						.getSingleResult();
 
 		// Populate this.pageItem
 		CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
 		root = criteria.from(Invoice.class);
-		TypedQuery<Invoice> query = this.entityManager
-				.createQuery(criteria.select(root).where(getSearchPredicates(root)));
-		query.setFirstResult(this.page * getPageSize()).setMaxResults(getPageSize());
+		TypedQuery<Invoice> query = this.entityManager.createQuery(
+						criteria.select(root).where(getSearchPredicates(root)));
+		query.setFirstResult(this.page * getPageSize())
+						.setMaxResults(getPageSize());
 		this.pageItems = query.getResultList();
 
 	}
@@ -196,39 +201,39 @@ public class InvoiceBean implements Serializable {
 
 		String firstName = this.example.getFirstName();
 		if (firstName != null && !"".equals(firstName)) {
-			predicatesList.add(
-					builder.like(builder.lower(root.<String>get("firstname")), 
+			predicatesList.add(builder.like(
+							builder.lower(root.<String>get("firstname")),
 							'%' + firstName.toLowerCase() + '%'));
 		}
-		
+
 		String lastName = this.example.getLastName();
 		if (lastName != null && !"".equals(lastName)) {
-			predicatesList.add(
-					builder.like(builder.lower(root.<String>get("lastName")), 
+			predicatesList.add(builder.like(
+							builder.lower(root.<String>get("lastName")),
 							'%' + lastName.toLowerCase() + '%'));
 		}
-		
+
 		String telephone = this.example.getTelephone();
 		if (telephone != null && !"".equals(telephone)) {
-			predicatesList.add(
-					builder.like(builder.lower(root.<String>get("telephone")), 
+			predicatesList.add(builder.like(
+							builder.lower(root.<String>get("telephone")),
 							'%' + telephone.toLowerCase() + '%'));
 		}
-		
+
 		String email = this.example.getEmail();
 		if (email != null && !"".equals(email)) {
-			predicatesList.add(
-					builder.like(builder.lower(root.<String>get("email")), 
+			predicatesList.add(builder.like(
+							builder.lower(root.<String>get("email")),
 							'%' + email.toLowerCase() + '%'));
 		}
-		
+
 		String street1 = this.example.getStreet1();
 		if (street1 != null && !"".equals(street1)) {
-			predicatesList.add(
-					builder.like(builder.lower(root.<String>get("street1")), 
+			predicatesList.add(builder.like(
+							builder.lower(root.<String>get("street1")),
 							'%' + street1.toLowerCase() + '%'));
 		}
-		
+
 		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
 
@@ -239,52 +244,57 @@ public class InvoiceBean implements Serializable {
 	public List<Invoice> getPageItems() {
 		return pageItems;
 	}
-	
+
 	/*
 	 * Support listing and POSTing back Invoice entities (e.g. from inside an
 	 * HtmlSelectOneMenu)
 	 */
-	
+
 	public List<Invoice> getAll() {
 		CriteriaQuery<Invoice> criteria = this.entityManager
-				.getCriteriaBuilder().createQuery(Invoice.class);
-		return this.entityManager.createQuery(
-				criteria.select(criteria.from(Invoice.class))).getResultList();
+						.getCriteriaBuilder().createQuery(Invoice.class);
+		return this.entityManager
+						.createQuery(criteria
+										.select(criteria.from(Invoice.class)))
+						.getResultList();
 	}
-	
+
 	@Resource
 	private SessionContext sessionContext;
-	
+
 	@SuppressWarnings("rawtypes")
 	public Converter getConverter() {
-		final InvoiceBean ejbProxy = this.sessionContext.getBusinessObject(InvoiceBean.class);
-		
+		final InvoiceBean ejbProxy = this.sessionContext
+						.getBusinessObject(InvoiceBean.class);
+
 		return new Converter() {
 			@Override
-			public Object getAsObject(FacesContext context, UIComponent component, String value) {
+			public Object getAsObject(FacesContext context,
+							UIComponent component, String value) {
 				return ejbProxy.findById(Long.valueOf(value));
 			}
 
 			@Override
-			public String getAsString(FacesContext context, UIComponent component, Object value) {
+			public String getAsString(FacesContext context,
+							UIComponent component, Object value) {
 				if (value == null) {
 					return "";
 				}
-				
+
 				return String.valueOf(((Invoice) value).getId());
 			}
 		};
 	}
-	
+
 	/*
 	 * Support adding children to bidirectional, one-to-many tables
 	 */
 	private Invoice add = new Invoice();
-	
+
 	public Invoice getAdd() {
 		return this.add;
 	}
-	
+
 	public Invoice getAdded() {
 		Invoice added = this.add;
 		this.add = new Invoice();
