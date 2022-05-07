@@ -1,6 +1,8 @@
-package org.agoncal.application.cdbookstore.view.admin;
+package com.commerce.cdbookstore.view.admin;
 
-import org.agoncal.application.cdbookstore.model.Musician;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -21,9 +23,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.commerce.cdbookstore.model.Musician;
 
 /**
  * Backing bean for Musician entities.
@@ -256,7 +257,8 @@ public class MusicianBean implements Serializable {
     * Support adding children to bidirectional, one-to-many tables
     */
 
-    public Converter getConverter() {
+    @SuppressWarnings("rawtypes")
+	public Converter getConverter() {
 
         final MusicianBean ejbProxy = this.sessionContext
                 .getBusinessObject(MusicianBean.class);

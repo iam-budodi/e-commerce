@@ -237,7 +237,8 @@ public class PublisherBean implements Serializable {
     * Support adding children to bidirectional, one-to-many tables
     */
 
-    public Converter getConverter() {
+    @SuppressWarnings("rawtypes")
+	public Converter getConverter() {
 
         final PublisherBean ejbProxy = this.sessionContext
                 .getBusinessObject(PublisherBean.class);
