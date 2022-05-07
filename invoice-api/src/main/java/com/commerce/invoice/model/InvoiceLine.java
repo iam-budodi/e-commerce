@@ -59,7 +59,6 @@ public class InvoiceLine implements Serializable {
 	}
 
 	public InvoiceLine(String title, Float unitCost, Integer quantity) {
-		super();
 		this.title = title;
 		this.unitCost = unitCost;
 		this.quantity = quantity;

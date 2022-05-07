@@ -107,14 +107,7 @@
 			<artifactId>lorem</artifactId>
 			<version>${version.lorem}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.batch</groupId>
-			<artifactId>jboss-batch-api_1.0_spec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.batch</groupId>
-			<artifactId>jboss-batch-api_1.0_spec</artifactId>
-		</dependency>
+		
 		<!-- Bean Validation Implementation Provides portable constraints such 
 			as @Email Hibernate Validator is shipped in WildFly / JBoss EAP -->
 		<dependency>

@@ -13,62 +13,25 @@
 	<packaging>war</packaging>
 	<name>cdbookstore</name>
 	
-	<description>Insert description for your project here.</description>
+	<description>Set all dependencies for cdbookstore - module</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Define the version of the JBoss BOMs we want to import to specify 
-			tested stacks. -->
-		<version.jboss.bom>25.0.1.Final</version.jboss.bom>
 
 		<!-- other plugin versions -->
 		<version.failsafe.plugin>2.22.2</version.failsafe.plugin>
 	</properties>
 
-	<!-- the JBoss community and Red Hat GA Maven repositories -->
-	<repositories>
-		<repository>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<updatePolicy>never</updatePolicy>
-			</snapshots>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<releases>
-			</releases>
-			<snapshots>
-			</snapshots>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.wildfly.bom</groupId>
-				<artifactId>wildfly-jakartaee8-with-tools</artifactId>
-				<version>${version.jboss.bom}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.commerce.cdbookstore</groupId>
+			<artifactId>invoice-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
 
 	<build>
-		<!-- Tell Maven that the resulting file should not have a file name containing 
-			the version - a non versioned name is required e.g. when building a deployable 
-			artifact using the ShrinkWrap API -->
 		<finalName>${project.artifactId}</finalName>
 	</build>
 
@@ -103,9 +66,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<!-- Configuration for Arquillian: -->
 							<systemPropertyVariables>
-								<!-- Defines the container qualifier in "arquillian.xml" -->
 								<arquillian.launch>remote</arquillian.launch>
 							</systemPropertyVariables>
 						</configuration>
