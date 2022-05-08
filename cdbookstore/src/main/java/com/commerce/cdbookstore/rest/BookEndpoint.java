@@ -1,8 +1,5 @@
 package com.commerce.cdbookstore.rest;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -105,7 +102,7 @@ public class BookEndpoint {
 	}
 
 	@GET
-	@Produces(APPLICATION_JSON)
+	@Produces({ "application/xml", "application/json" })
 	public Response listAll(@QueryParam("start") Integer startPosition,
 					@QueryParam("max") Integer maxResult) {
 

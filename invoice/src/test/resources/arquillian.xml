@@ -5,5 +5,5 @@
     http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
 	<defaultProtocol type="Servlet 3.0" />
-	<container qualifier="arq-remote" />
+	<container qualifier="remote" />
 </arquillian>

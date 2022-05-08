@@ -1,11 +1,10 @@
 package com.commerce.cdbookstore.rest;
 
-import static org.junit.Assert.assertEquals;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -23,7 +22,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -85,13 +83,13 @@ public class BookEndpointTest {
 	@InSequence(1)
 	public void should_be_deployed() {
 		assertEquals(Response.Status.NO_CONTENT.getStatusCode(), webTarget
-						.request(MediaType.APPLICATION_XML).get().getStatus());
+						.request(MediaType.APPLICATION_JSON).get().getStatus());
 	}
 
 	@Test
 	@InSequence(2)
 	public void shouldCRUDBooks() throws IOException {
-		response = webTarget.request(MediaType.APPLICATION_JSON).get();
+		response = webTarget.request(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).get();
 		System.out.println("test BOOK : " + response.getStatus());
 		assertEquals(NO_CONTENT.getStatusCode(), response.getStatus());
 //		assertEquals(0, response.readEntity(List.class).size());

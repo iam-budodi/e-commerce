@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans version="2.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-      http://xmlns.jcp.org/xml/ns/javaee
-      http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"
-	bean-discovery-mode="all">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+       bean-discovery-mode="all" version="1.1"
+       xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
 
-	<!-- This descriptor configures Context and Dependeny Injection. Actually, 
-		CDI 1.1 does not require this file. But the archetype contains it anyway 
-		to avoid deloyment errors for blank projects (WFLY-13306) -->
+    <interceptors>
+        <!--<class>org.agoncal.application.cdbookstore.util.LoggingInterceptor</class>-->
+        <!--<class>org.agoncal.application.cdbookstore.util.AuditInterceptor</class>-->
+    </interceptors>
 
 </beans>
