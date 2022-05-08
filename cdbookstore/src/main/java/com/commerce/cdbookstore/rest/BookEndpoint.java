@@ -1,5 +1,8 @@
 package com.commerce.cdbookstore.rest;
 
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,8 +21,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
 import com.commerce.cdbookstore.model.Book;
 
@@ -37,32 +40,29 @@ public class BookEndpoint {
 	// ========================================
 	// = 			Business Methodds 		  =
 	// ========================================
-	
+
 	@GET
 	@Path("/paper")
-	@Produces({"text/plain"})
+	@Produces({ "text/plain" })
 	public String listPaperBook() {
 		return "list paper books";
 	}
-	
+
 	@GET
 	@Path("/paper/old")
-	@Produces({"text/plain"})
+	@Produces({ "text/plain" })
 	public String listOldPaperBook() {
 		return "list old paper books";
 	}
-	
 
 	@POST
 	@Consumes({ "application/xml", "application/json" })
 	public Response create(Book entity) {
 		em.persist(entity);
-		return Response.created(
-				UriBuilder.fromResource(BookEndpoint.class)
-				.path(String.valueOf(entity.getId())).build())
-				.build();
+		return Response.created(UriBuilder.fromResource(BookEndpoint.class)
+						.path(String.valueOf(entity.getId())).build()).build();
 	}
-	
+
 	@DELETE
 	@Path("/{id:[0-9][0-9]*}")
 	public Response deleteById(@PathParam("id") Long id) {
@@ -70,64 +70,70 @@ public class BookEndpoint {
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		
+
 		em.remove(entity);
 		return Response.noContent().build();
 	}
-	
+
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces({ "application/xml", "application/json" })
 	public Response findById(@PathParam("id") Long id) {
-		TypedQuery<Book> findByIdQuery = em.createQuery(
-				"SELECT DISTINCT b FROM Book b "
-				+ "LEFT JOIN FETCH b.category "
-				+ "LEFT JOIN FETCH b.authors "
-				+ "LEFT JOIN FETCH b.publisher "
-				+ "WHERE b.id = :entityId "
-				+ "ORDER BY b.id", 
-				Book.class);
-		
+		TypedQuery<Book> findByIdQuery = em
+						.createQuery("SELECT DISTINCT b FROM Book b "
+										+ "LEFT JOIN FETCH b.category "
+										+ "LEFT JOIN FETCH b.authors "
+										+ "LEFT JOIN FETCH b.publisher "
+										+ "WHERE b.id = :entityId "
+										+ "ORDER BY b.id", Book.class);
+
 		findByIdQuery.setParameter("entityId", id);
-		
+
 		Book entity;
-		
+
 		try {
 			entity = findByIdQuery.getSingleResult();
 		} catch (NoResultException nre) {
 			entity = null;
 		}
-		
+
 		if (entity == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		
+
 		return Response.ok(entity).build();
 	}
-	
+
 	@GET
-	@Produces({ "application/xml", "application/json" })
-	public List<Book> listAll(@QueryParam("start") Integer startPosition, 
-			@QueryParam("max") Integer maxResult) {
-		
-		TypedQuery<Book> findAllQuery = em.createQuery(
-				"SELECT DISTINCT b FROM Book b "
-				+ "LEFT JOIN FETCH b.category "
-				+ "LEFT JOIN FETCH b.authors "
-				+ "LEFT JOIN FETCH b.publisher "
-				+ "ORDER BY b.id", 
-				Book.class);
-		
+	@Produces(APPLICATION_JSON)
+	public Response listAll(@QueryParam("start") Integer startPosition,
+					@QueryParam("max") Integer maxResult) {
+
+		TypedQuery<Book> findAllQuery = em
+						.createQuery("SELECT DISTINCT b FROM Book b "
+										+ "LEFT JOIN FETCH b.category "
+										+ "LEFT JOIN FETCH b.authors "
+										+ "LEFT JOIN FETCH b.publisher "
+										+ "ORDER BY b.id", Book.class);
+
 		if (startPosition != null) {
 			findAllQuery.setFirstResult(startPosition);
 		}
+
 		if (maxResult != null) {
 			findAllQuery.setMaxResults(maxResult);
 		}
-		final List<Book> results = findAllQuery.getResultList();
-		return results;
+
+		List<Book> books = findAllQuery.getResultList();
+		System.out.println("BOOK : " + books.toString());
+		
+		if (books.isEmpty())
+			return Response.status(Response.Status.NO_CONTENT).build(); 
+
+		System.out.println("2 BOOK : " + books.toString());
+		return Response.ok(books).build();
 	}
-	
+
 	@PUT
 	@Path("/{id:[0-9][0-9]*}")
 	@Consumes({ "application/xml", "application/json" })
@@ -144,15 +150,15 @@ public class BookEndpoint {
 		if (em.find(Book.class, id) == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		
+
 		try {
 			entity = em.merge(entity);
 		} catch (OptimisticLockException e) {
 			return Response.status(Response.Status.CONFLICT)
-					.entity(e.getEntity()).build();
+							.entity(e.getEntity()).build();
 		}
-		
+
 		return Response.noContent().build();
 	}
-	
+
 }

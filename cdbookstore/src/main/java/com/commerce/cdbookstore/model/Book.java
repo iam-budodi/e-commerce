@@ -72,17 +72,16 @@ public class Book extends Item implements Serializable {
 		super();
 	}  
 
-	public Book(String isbn, Integer nbOfPage, Date publicationDate, Language language, Publisher publisher,
-			Category category, Set<Author> authors ) {
+	public Book(String isbn, String title, String description, Float unitCost,
+					Integer nbOfPage, Language language) {
 		super();
 		this.isbn = isbn;
+		this.title = title;
+		this.description = description;
+		this.unitCost = unitCost;
 		this.nbOfPage = nbOfPage;
-		this.publicationDate = publicationDate;
 		this.language = language;
-		this.publisher = publisher;
-		this.category = category;
-		this.authors = authors;
-	} 
+	}
 	
 	// =================================
 	// = 		Getters and Setters    =
@@ -152,11 +151,15 @@ public class Book extends Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Book [isbn=" + isbn + ", nbOfPage=" + nbOfPage + ", publicationDate=" + publicationDate + ", language="
-				+ language + ", publisher=" + publisher + ", category=" + category + ", authors=" + authors + ", id="
-				+ id + ", version=" + version + ", title=" + title + ", description=" + description + ", unitCost="
-				+ unitCost + ", rank=" + rank + ", smallImageURL=" + smallImageURL + ", mediumImageURL="
-				+ mediumImageURL + "]";
+		return "Book [isbn=" + isbn + ", nbOfPage=" + nbOfPage
+						+ ", publicationDate=" + publicationDate + ", language="
+						+ language + ", publisher=" + publisher + ", category="
+						+ category + ", authors=" + authors + ", id=" + id
+						+ ", version=" + version + ", title=" + title
+						+ ", description=" + description + ", unitCost="
+						+ unitCost + ", rank=" + rank + ", smallImageURL="
+						+ smallImageURL + ", mediumImageURL=" + mediumImageURL
+						+ "]";
 	}
    
 }
