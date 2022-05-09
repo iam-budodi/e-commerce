@@ -21,6 +21,7 @@ public class ResourceProducer {
 	private EntityManager em;
 
 	@Produces
+	@Faces
 	@RequestScoped
 	private FacesContext produceFacesContext() {
 		return FacesContext.getCurrentInstance();

@@ -8,18 +8,15 @@
 		<groupId>com.commerce.cdbookstore</groupId>
 		<version>1.0</version>
 	</parent>
-	
+
 	<artifactId>cdbookstore</artifactId>
 	<packaging>war</packaging>
 	<name>cdbookstore</name>
-	
-	<description>Insert description for your project here.</description>
+
+	<description>Set all dependencies for cdbookstore - module</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Define the version of the JBoss BOMs we want to import to specify 
-			tested stacks. -->
 		<version.jboss.bom>25.0.1.Final</version.jboss.bom>
 
 		<!-- other plugin versions -->
@@ -30,9 +27,11 @@
 	<repositories>
 		<repository>
 			<releases>
+				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</releases>
 			<snapshots>
+				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 			<id>jboss-public-repository-group</id>
@@ -41,11 +40,14 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<releases>
+				<enabled>true</enabled>
 			</releases>
 			<snapshots>
+				<enabled>true</enabled>
 			</snapshots>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
@@ -65,10 +67,45 @@
 		</dependencies>
 	</dependencyManagement>
 
+
+	<dependencies>
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-jms-client-bom</artifactId>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>com.commerce.cdbookstore</groupId>
+			<artifactId>invoice-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
-		<!-- Tell Maven that the resulting file should not have a file name containing 
-			the version - a non versioned name is required e.g. when building a deployable 
-			artifact using the ShrinkWrap API -->
 		<finalName>${project.artifactId}</finalName>
 	</build>
 
@@ -78,9 +115,9 @@
 			<!-- An optional Arquillian testing profile that executes tests in a remote 
 				JBoss EAP instance. Run with: mvn clean verify -Parq-remote -->
 			<id>arq-remote</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly.arquillian</groupId>
@@ -103,9 +140,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<!-- Configuration for Arquillian: -->
 							<systemPropertyVariables>
-								<!-- Defines the container qualifier in "arquillian.xml" -->
 								<arquillian.launch>remote</arquillian.launch>
 							</systemPropertyVariables>
 						</configuration>

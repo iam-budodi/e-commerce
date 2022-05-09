@@ -50,7 +50,11 @@ public class Category implements Serializable {
 
 	public Category() {
 		super();
-	}   
+	} 
+	
+	public Category(String name) {
+        this.name = name;
+    }
 	
 	// =================================
 	// = 		Getters and Setters    =
@@ -88,3 +92,4 @@ public class Category implements Serializable {
 	}
    
 }
+ 

@@ -12,16 +12,12 @@
 	<artifactId>invoice</artifactId>
 	<packaging>war</packaging>
 	<name>invoice</name>
-	<description>Insert description for your project here.</description>
+
+	<description>Set all dependencies for invoice - module</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Define the version of the JBoss BOMs we want to import to specify 
-			tested stacks. -->
 		<version.jboss.bom>25.0.1.Final</version.jboss.bom>
-
-		<!-- other plugin versions -->
 		<version.failsafe.plugin>2.22.2</version.failsafe.plugin>
 	</properties>
 
@@ -29,9 +25,11 @@
 	<repositories>
 		<repository>
 			<releases>
+				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</releases>
 			<snapshots>
+				<enabled>true</enabled>
 				<updatePolicy>never</updatePolicy>
 			</snapshots>
 			<id>jboss-public-repository-group</id>
@@ -40,11 +38,14 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<releases>
+				<enabled>true</enabled>
 			</releases>
 			<snapshots>
+				<enabled>true</enabled>
 			</snapshots>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Repository Group</name>
@@ -65,6 +66,11 @@
 	</dependencyManagement>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.wildfly</groupId>
+            <artifactId>wildfly-jms-client-bom</artifactId>
+            <type>pom</type>
+        </dependency>
 		<dependency>
 			<groupId>com.commerce.cdbookstore</groupId>
 			<artifactId>invoice-api</artifactId>
@@ -73,17 +79,12 @@
 	</dependencies>
 
 	<build>
-		<!-- Tell Maven that the resulting file should not have a file name containing 
-			the version - a non versioned name is required e.g. when building a deployable 
-			artifact using the ShrinkWrap API -->
 		<finalName>${project.artifactId}</finalName>
 	</build>
 
 
 	<profiles>
 		<profile>
-			<!-- An optional Arquillian testing profile that executes tests in a remote 
-				JBoss EAP instance. Run with: mvn clean verify -Parq-remote -->
 			<id>arq-remote</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>

@@ -26,6 +26,10 @@
 		<version.surefire.plugin>2.22.2</version.surefire.plugin>
 		<version.failsafe.plugin>2.22.2</version.failsafe.plugin>
 		<version.war.plugin>3.3.2</version.war.plugin>
+		
+		<version.arquillian.wildfly>4.0.0.Alpha3</version.arquillian.wildfly>
+		<version.arquillian.rest>1.0.0.Alpha4</version.arquillian.rest>
+		<version.resteasy>3.15.3.Final</version.resteasy>
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.release>11</maven.compiler.release>
 	</properties>
@@ -107,14 +111,7 @@
 			<artifactId>lorem</artifactId>
 			<version>${version.lorem}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.batch</groupId>
-			<artifactId>jboss-batch-api_1.0_spec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.spec.javax.batch</groupId>
-			<artifactId>jboss-batch-api_1.0_spec</artifactId>
-		</dependency>
+
 		<!-- Bean Validation Implementation Provides portable constraints such 
 			as @Email Hibernate Validator is shipped in WildFly / JBoss EAP -->
 		<dependency>
@@ -181,17 +178,73 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.wildfly.arquillian</groupId>
+			<artifactId>wildfly-arquillian-container-remote</artifactId>
+			<!-- <version>${version.arquillian.wildfly}</version> -->
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-rest-client-api</artifactId>
+			<version>${version.arquillian.rest}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-rest-client-impl-3x</artifactId>
+			<version>${version.arquillian.rest}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>3.15.2.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- trying to solve getter setter problem -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.jboss.arquillian.protocol</groupId>
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<build>
-		<!-- Tell Maven that the resulting file should not have a file name containing 
-			the version - a non versioned name is required e.g. when building a deployable 
-			artifact using the ShrinkWrap API -->
 		<plugins>
-			<!--Configuration of the maven-compiler-plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

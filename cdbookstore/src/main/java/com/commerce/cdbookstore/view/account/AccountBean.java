@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 
 import com.commerce.cdbookstore.model.User;
 import com.commerce.cdbookstore.model.UserRole;
+import com.commerce.cdbookstore.util.Faces;
 import com.commerce.cdbookstore.util.PasswordUtils;
 import com.commerce.cdbookstore.view.shopping.ShoppingCartBean;
 import com.thedeanda.lorem.LoremIpsum;
@@ -41,6 +42,7 @@ public class AccountBean implements Serializable {
 	private BeanManager beanManager;
 	
 	@Inject
+	@Faces
 	private FacesContext facesContext;
 	
 	@Inject

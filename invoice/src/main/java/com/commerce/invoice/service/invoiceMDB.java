@@ -13,13 +13,9 @@ import javax.jms.MessageListener;
 import com.commerce.invoice.model.Invoice;
 
 @MessageDriven(mappedName = "invoiceQueue", activationConfig = {
-		@ActivationConfigProperty(
-				propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(
-				propertyName = "destination", propertyValue = "jms/queue/invoiceQueue"),
-		@ActivationConfigProperty(
-				propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
-})
+		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:/jms/queue/invoiceQueue"),
+		@ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"), })
 public class invoiceMDB implements MessageListener {
 
 	// ==================================
