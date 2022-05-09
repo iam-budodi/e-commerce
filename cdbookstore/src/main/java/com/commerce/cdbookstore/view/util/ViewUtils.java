@@ -1,12 +1,13 @@
 package com.commerce.cdbookstore.view.util;
 
-import javax.persistence.Id;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.Id;
 
 /**
  * Utilities for working with Java Server Faces views.
@@ -46,11 +47,9 @@ public final class ViewUtils {
 					if (field.getAnnotation(Id.class) != null) {
 						// Find a matching getter and invoke it to display the
 						// key
-						for (Method method : object.getClass()
-										.getDeclaredMethods()) {
-							if (method.equals(new PropertyDescriptor(
-											field.getName(), object.getClass())
-															.getReadMethod())) {
+						for (Method method : object.getClass().getDeclaredMethods()) {
+							if (method.equals(
+									new PropertyDescriptor(field.getName(), object.getClass()).getReadMethod())) {
 								return method.invoke(object).toString();
 							}
 						}

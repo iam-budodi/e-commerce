@@ -14,6 +14,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -44,9 +45,8 @@ public class CDEndpointTest {
     // ======================================
 
     @Deployment(testable = false)
-    public static WebArchive createDeployment() {
-        return ShrinkWrap
-                .create(WebArchive.class)
+    public static Archive<?> createDeployment() {
+		return ShrinkWrap.create(WebArchive.class)
                 .addClass(RestApplication.class)
                 .addClass(CDEndpoint.class)
                 .addClass(CD.class)
@@ -56,7 +56,7 @@ public class CDEndpointTest {
                 .addClass(Artist.class)
                 .addClass(Musician.class)
                 .addClass(ResourceProducer.class)
-                .addAsResource("META-INF/persistence-test.xml", "META-INF/persistence.xml")
+                .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

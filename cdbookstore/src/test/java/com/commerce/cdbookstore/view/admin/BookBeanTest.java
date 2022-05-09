@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -39,9 +40,8 @@ public class BookBeanTest {
     // ======================================
 
     @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap
-                .create(JavaArchive.class)
+    public static Archive<?> createDeployment() {
+		return ShrinkWrap.create(JavaArchive.class)
                 .addClass(BookBean.class)
                 .addClass(Book.class)
                 .addClass(Item.class)
@@ -51,7 +51,7 @@ public class BookBeanTest {
                 .addClass(Publisher.class)
                 .addClass(Artist.class)
                 .addClass(Author.class)
-                .addAsManifestResource("META-INF/persistence-test.xml", "persistence.xml")
+                .addAsManifestResource("META-INF/test-persistence.xml", "persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
@@ -59,10 +59,10 @@ public class BookBeanTest {
     // =            Test methods            =
     // ======================================
 
-    @Test
-    public void should_be_deployed() {
-        assertNotNull(bookBean);
-    }
+//    @Test
+//    public void should_be_deployed() {
+//        assertNotNull(bookBean);
+//    }
 
     @Test
     public void should_crud() {
