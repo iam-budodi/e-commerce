@@ -116,7 +116,8 @@ public class InvoiceBean implements Serializable {
 				return "view?faces-redirect=true&id=" + this.invoice.getId();
 			}
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
@@ -131,7 +132,8 @@ public class InvoiceBean implements Serializable {
 			this.entityManager.flush();
 			return "search?faces-redirect=true";
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(e.getMessage()));
 			return null;
 		}
 	}
@@ -180,7 +182,7 @@ public class InvoiceBean implements Serializable {
 		countCriteria = countCriteria.select(builder.count(root)).where(getSearchPredicates(root));
 		this.count = this.entityManager.createQuery(countCriteria).getSingleResult();
 
-		// Populate this.pageItem
+		// Populate this.pageItems
 		CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
 		root = criteria.from(Invoice.class);
 		TypedQuery<Invoice> query = this.entityManager
