@@ -35,36 +35,36 @@ public class AccountBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// ========================================
-	// = 			Injection Point 		  =
+	// = Injection Point =
 	// ========================================
-	
+
 	@Inject
 	private BeanManager beanManager;
-	
+
 	@Inject
 	@Faces
 	private FacesContext facesContext;
-	
+
 	@Inject
 	private HttpServletResponse response;
-	
+
 	@Inject
 	private HttpServletRequest request;
-	
+
 	@Inject
 	private EntityManager em;
 
 	// ========================================
-	// = 			Constants		 		  =
+	// = Constants =
 	// ========================================
-	
+
 	private static final String COOKIE_NAME = "applicationCDBookStoreCookie";
 	private static final int COOKIE_AGE = 60; // expires after 60 seconds or even 2_592_000 for one month
 
 	// ========================================
-	// = 			Attributes		 		  =
+	// = Attributes =
 	// ========================================
-	
+
 	// Logged user
 	private User user = new User();
 	private boolean loggedIn;
@@ -74,159 +74,168 @@ public class AccountBean implements Serializable {
 	private boolean rememberMe;
 
 	// ========================================
-	// = 			Attributes		 		  =
+	// = Attributes =
 	// ========================================
-	
+
 	@PostConstruct
 	private void checkIfUserHasRememberMeCookie() {
 		String cookieValue = getCookieValue();
-		if (cookieValue == null) return;
-		
-		TypedQuery<User> query = 
-				em.createNamedQuery(User.FIND_BY_UUID, User.class);
+		if (cookieValue == null)
+			return;
+
+		TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_UUID,
+					User.class);
 		query.setParameter("uuid", cookieValue);
 		try {
 			user = query.getSingleResult();
 			// if the user is an administrator
-			if (user.getRole().equals(UserRole.ADMIN)) admin = true;
+			if (user.getRole().equals(UserRole.ADMIN))
+				admin = true;
 			// the user is now logged in
 			loggedIn = true;
 		} catch (NoResultException e) {
 			// The user may have an old cookie, let's get rid of it
 			removeCookie();
 		}
-		
+
 	}
 
 	// ========================================
-	// = 			Business Methods 		  =
+	// = Business Methods =
 	// ========================================
-	
+
 	public String doSignup() {
 		// Does the login exists?
 		int users = em.createNamedQuery(User.FIND_BY_LOGIN, User.class)
-				.setParameter("login", user.getLogin())
-				.getResultList()
-				.size();
-		
+					.setParameter("login", user.getLogin()).getResultList()
+					.size();
+
 		if (users > 0) {
-			facesContext.addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_WARN, 
-							"Login already exists " + user.getLogin(), 
-							" You must choose a different login"));
+			facesContext.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+									"Login already exists " + user.getLogin(),
+									" You must choose a different login"));
 			return null;
 		}
-		
+
 		// Everything is ok, we can create the user
 		user.setPassword(password1);
 		em.persist(user);
 		resetPassword();
-		facesContext.addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Hi " + user.getFirstName(), 
-						" Welcome to this website!"));
-		
+		facesContext.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Hi " + user.getFirstName(),
+								" Welcome to this website!"));
+
 		loggedIn = true;
-		if (user.getRole().equals(UserRole.ADMIN)) admin = true;
-		
+		if (user.getRole().equals(UserRole.ADMIN))
+			admin = true;
+
 		return "/main";
 	}
-	
+
 	public String doSignin() {
-		TypedQuery<User> query = 
-				em.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
+		TypedQuery<User> query = em
+					.createNamedQuery(User.FIND_BY_LOGIN_PASSWORD, User.class);
 		query.setParameter("login", user.getLogin());
-		query.setParameter("password", user.getPassword());
+		query.setParameter("password",
+					PasswordUtils.digestPassword(user.getPassword()));
 		try {
 			user = query.getSingleResult();
-			// if the user is an administrator
-			if (user.getRole().equals(UserRole.ADMIN)) admin = true;
-			// if user clicked on remember me
+			// If the user is an administrator
+			if (user.getRole().equals(UserRole.ADMIN))
+				admin = true;
+			// If the user has clicked on remember me
 			if (rememberMe) {
 				String uuid = UUID.randomUUID().toString();
 				user.setUuid(uuid);
+//				em.merge(user);
 				addCookie(uuid);
 			} else {
 				user.setUuid(null);
+//				em.merge(user);
 				removeCookie();
 			}
-			
-			// user is now logged in
+			// The user is now logged in
 			loggedIn = true;
-			facesContext.addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"Welcome back " + user.getFirstName(), 
-							" you can now browse the catalog!"));
-			
+			facesContext.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+									"Welcome back " + user.getFirstName(),
+									"You can now browse the catalog"));
 			return "/main";
-			
 		} catch (NoResultException e) {
-			facesContext.addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_WARN, 
-							"Wrong username/password ", 
-							"Check your inputs or ask for new password!"));
+			facesContext.addMessage(null, new FacesMessage(
+						FacesMessage.SEVERITY_WARN, "Wrong user/password",
+						"Check your inputs or ask for a new password"));
 			return null;
 		}
 	}
-	
+
 	public String doLogout() {
-		AlterableContext ctx = (AlterableContext) beanManager.getContext(SessionScoped.class);
-		Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator().next();
+		AlterableContext ctx = (AlterableContext) beanManager
+					.getContext(SessionScoped.class);
+		Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator()
+					.next();
 		ctx.destroy(myBean);
-		myBean = beanManager.getBeans(ShoppingCartBean.class).iterator().next();
+		myBean = beanManager.getBeans(ShoppingCartBean.class).iterator()
+					.next();
 		ctx.destroy(myBean);
-		
+
 		return "/main";
 	}
-	
+
 	public String doLogoutAndRemoveCookie() {
 		removeCookie();
 		user.setUuid(null);
 		em.merge(user);
-		AlterableContext ctx = (AlterableContext) beanManager.getContext(SessionScoped.class);
-		Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator().next();
+		AlterableContext ctx = (AlterableContext) beanManager
+					.getContext(SessionScoped.class);
+		Bean<?> myBean = beanManager.getBeans(AccountBean.class).iterator()
+					.next();
 		ctx.destroy(myBean);
-		myBean = beanManager.getBeans(ShoppingCartBean.class).iterator().next();
+		myBean = beanManager.getBeans(ShoppingCartBean.class).iterator()
+					.next();
 		ctx.destroy(myBean);
-		
+
 		return "/main";
 	}
-	
+
 	public String doForgotPassword() {
-		TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_EMAIL, User.class);
+		TypedQuery<User> query = em.createNamedQuery(User.FIND_BY_EMAIL,
+					User.class);
 		query.setParameter("email", user.getEmail());
 		try {
 			user = query.getSingleResult();
 			String temporaryPassword = LoremIpsum.getInstance().getWords(1);
 			user.setPassword(PasswordUtils.digestPassword(temporaryPassword));
 			em.merge(user);
-			facesContext.addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_INFO, 
-							"Email sent", 
-							" An email has been sent to " + user.getEmail() 
-							+ " with temporary password : " + temporaryPassword));
+			facesContext.addMessage(null, new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Email sent",
+						" An email has been sent to " + user.getEmail()
+									+ " with temporary password : "
+									+ temporaryPassword));
 			// send an email with the password "dummyPassword"
 			return doLogout();
 		} catch (NoResultException e) {
-			facesContext.addMessage(null, 
-					new FacesMessage(FacesMessage.SEVERITY_WARN, 
-							"Unknown email ", 
-							"This email is unknown to our system"));
+			facesContext.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN,
+									"Unknown email ",
+									"This email is unknown to our system"));
 			return null;
 		}
 	}
-	
+
 	public String doUpdateProfile() {
 		if (password1 != null && !password1.isEmpty()) {
 			user.setPassword(PasswordUtils.digestPassword(password1));
 		}
-		
+
 		em.merge(user);
 		resetPassword();
-		facesContext.addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, 
-						"Profile has been updated for " + user.getFirstName(), 
-						null));
+		facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO,
+					"Profile has been updated for " + user.getFirstName(),
+					null));
 		return null;
 	}
 
@@ -242,15 +251,15 @@ public class AccountBean implements Serializable {
 		}
 		return null;
 	}
-	
+
 	private void addCookie(String value) {
 		Cookie cookie = new Cookie(COOKIE_NAME, value);
 		cookie.setPath("/sampleJSFLogin");
 		cookie.setMaxAge(COOKIE_AGE);
 		response.addCookie(cookie);
-		
+
 	}
-	
+
 	private void removeCookie() {
 		Cookie cookie = new Cookie(COOKIE_NAME, null);
 		cookie.setMaxAge(0);
@@ -309,7 +318,7 @@ public class AccountBean implements Serializable {
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
 	}
-	
+
 	public UserRole[] getRoles() {
 		return UserRole.values();
 	}

@@ -26,7 +26,7 @@
 		<version.surefire.plugin>2.22.2</version.surefire.plugin>
 		<version.failsafe.plugin>2.22.2</version.failsafe.plugin>
 		<version.war.plugin>3.3.2</version.war.plugin>
-		
+
 		<version.arquillian.wildfly>4.0.0.Alpha3</version.arquillian.wildfly>
 		<version.arquillian.rest>1.0.0.Alpha4</version.arquillian.rest>
 		<version.resteasy>3.15.3.Final</version.resteasy>
@@ -36,6 +36,12 @@
 
 	<!-- the JBoss community and Red Hat GA Maven repositories -->
 	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>https://repository.primefaces.org/</url>
+			<layout>default</layout>
+		</repository>
 		<repository>
 			<releases>
 				<enabled>true</enabled>
@@ -110,6 +116,30 @@
 			<groupId>com.thedeanda</groupId>
 			<artifactId>lorem</artifactId>
 			<version>${version.lorem}</version>
+		</dependency>
+
+		<!-- WEB CLIENT -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 
 		<!-- Bean Validation Implementation Provides portable constraints such 
@@ -212,8 +242,17 @@
 			<artifactId>resteasy-jackson2-provider</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
 
+		<!-- Web Socket -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.websocket</groupId>
+			<artifactId>jboss-websocket-api_1.1_spec</artifactId>
+			<scope>provided</scope>
+			<!-- <version>2.0.0.Final</version> -->
+			<!-- <type>bundle</type> -->
+		</dependency>
+
+		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
 			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 			<scope>test</scope>
@@ -272,7 +311,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 	<modules>
 		<module>cdbookstore</module>
 		<module>invoice</module>

@@ -3,6 +3,7 @@ package com.commerce.cdbookstore.view.shopping;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,32 +16,31 @@ import com.commerce.cdbookstore.util.Auditable;
 @Named
 @RequestScoped
 @Transactional
-public class CatologBean {
-	
+public class CatalogBean {
+
 	// =================================
-	// =        Injection Points       =
+	// = Injection Points =
 	// =================================
-	
-	/*
-	 * @Inject private FacesContext facesContext;
-	 */
-	
+
+//	@Inject
+//	private FacesContext facesContext;
+
 	@Inject
 	private EntityManager em;
-		
+
 	// =================================
-	// =        Constants              =
+	// = Constants =
 	// =================================
-	
+
 	private String keyword;
 	private List<Item> items;
 	private Item item;
 	private Long itemId;
-	
+
 	// =================================
-	// =        Business Methods	   =
+	// = Business Methods =
 	// =================================
-	
+
 	@Auditable
 	public String doSearch() {
 		TypedQuery<Item> typedQuery = em.createNamedQuery(Item.SEARCH, Item.class);
@@ -48,16 +48,16 @@ public class CatologBean {
 		items = typedQuery.getResultList();
 		return null;
 	}
-	
+
 	public String doViewItemById() {
 		item = em.find(Item.class, itemId);
 		return null;
 	}
-	
+
 	// =================================
-	// =        Getters and Setters    =
+	// = Getters and Setters =
 	// =================================
-		
+
 	public String getKeyword() {
 		return keyword;
 	}

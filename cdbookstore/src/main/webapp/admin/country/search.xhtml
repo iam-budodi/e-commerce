@@ -60,7 +60,7 @@
                         <h:outputLabel for="countryBeanExampleNumcode" value="Numcode:"/>
                         <h:panelGroup>
                             <h:inputText id="countryBeanExampleNumcode" maxLength="3"
-                                         value="#{countryBean.example.numcode}"/>
+                                         value="#{countryBean.example.numCode}"/>
                             <h:message for="countryBeanExampleNumcode" styleClass="error"/>
                         </h:panelGroup>
                         <h:outputText/>
@@ -115,7 +115,7 @@
                     </f:facet>
                     <h:link outcome="/admin/country/view">
                         <f:param name="id" value="#{_item.id}"/>
-                        <h:outputText id="itemNumcode" value="#{_item.numcode}"/>
+                        <h:outputText id="itemNumcode" value="#{_item.numCode}"/>
                     </h:link>
                 </h:column>
             </h:dataTable>

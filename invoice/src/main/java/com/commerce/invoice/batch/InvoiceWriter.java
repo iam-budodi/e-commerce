@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.batch.api.chunk.AbstractItemWriter;
-import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
